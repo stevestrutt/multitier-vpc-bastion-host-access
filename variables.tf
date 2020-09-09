@@ -53,43 +53,6 @@ locals {
   pub_repo_egress_cidr = "0.0.0.0/0" # cidr range required to contact public software repositories 
 }
 
-# Predefine subnets for all app tiers for use with `ibm_is_address_prefix`. Single tier CIDR used for NACLs  
-# Each app tier uses: 
-# frontend_cidr_blocks = [cidrsubnet(var.frontend_cidr, 4, 0), cidrsubnet(var.frontend_cidr, 4, 2), cidrsubnet(var.frontend_cidr, 4, 4)]
-# to create individual zone subnets for use with `ibm_is_address_prefix`
-variable "bastion_cidr" {
-  description = "Complete CIDR range across all three zones for bastion host subnets"
-  default     = "172.22.192.0/20"
-}
-
-variable "frontend_cidr" {
-  description = "Complete CIDR range across all three zones for frontend subnets"
-  default     = "172.16.0.0/20"
-}
-
-variable "backend_cidr" {
-  description = "Complete CIDR range across all three zones for backend subnets"
-  default     = "172.17.0.0/20"
-}
-
-
-##############################################################################
-
-# VSI profile
-variable "profile" {
-  description = "Profile for VSIs deployed in frontend and backend"
-  default     = "cx2-2x4"
-}
-
-# image names can be determined with the cli command `ibmcloud is images`
-variable "image_name" {
-  description = "OS image for VSI deployments. Only tested with Centos"
-  default     = "ibm-centos-7-6-minimal-amd64-1"
-}
-
-data "ibm_is_image" "os" {
-  name = var.image_name
-}
 
 
 ##############################################################################
@@ -111,5 +74,13 @@ data "ibm_is_ssh_key" "sshkey" {
 
 variable "ssh_key_name" {
   description = "Name giving to public SSH key uploaded to IBM Cloud for VSI access"
+}
+
+variable "bastion_ip_address" {
+  description = "bastion IP"
+}
+
+variable "host_ip_addresses" {
+  description = "host IPs"
 }
 
