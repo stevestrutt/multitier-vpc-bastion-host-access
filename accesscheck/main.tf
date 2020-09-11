@@ -7,7 +7,7 @@ resource "null_resource" "ssh_accesscheck" {
   count = local.target_count
 
   connection {
-    bastion_host = var.bastion_host
+    #bastion_host = var.bastion_host
 
     #host = "52.116.140.31"
     host        = var.target_hosts[count.index]
